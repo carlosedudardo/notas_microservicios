@@ -64,13 +64,20 @@ class EstudianteController extends Controller
      */
     public function update(Request $request, $codigo)
     {
+        $estudiante = Estudiante::where('codigo', $codigo)->first();
+        if(!$estudiante){
+            return response(json_decode([
+                "error" => "Estudiante no encontrado"
+            ]));
+        }
+
         $estudiante = Estudiante::find($codigo);
         // $estudiante->codigo = $request->input('codigo');
         $estudiante->nombres = $request->input('nombres');
         $estudiante->apellidos = $request->input('apellidos');
         $estudiante->save();
         return response(json_encode([
-            "data"=> "Registro actualizado"
+            "data"=> "Estudainte actualizado"
         ]));
     }
 
@@ -90,7 +97,7 @@ class EstudianteController extends Controller
         }
         $estudiante->delete();
         return response(json_encode([
-            "data"=> "Registro eliminado"
+            "data"=> "Estudiante eliminado"
         ]));
     }
 }

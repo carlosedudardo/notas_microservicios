@@ -32,7 +32,7 @@ class ActividadController extends Controller
     public function store(Request $request)
     {
         $Actividad = new Actividad();
-        $Actividad->id = $request->input('id');
+        // $Actividad->id = $request->input('id');
         $Actividad->descripcion = $request->input('descripcion');
         $Actividad->nota = $request->input('nota');
         $Actividad->codigoEstudiante = $request->input('codigoEstudiante');
@@ -65,13 +65,20 @@ class ActividadController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $actividad = Actividad::where('id', $id)->first();
+        if(!$actividad){
+            return response(json_decode([
+                "error" => "Actividad no encontrada"
+            ]));
+        }
+
         $Actividad = Actividad::find($id);
         // $Actividad->id = $request->input('id');
         $Actividad->descripcion = $request->input('descripcion');
         $Actividad->nota = $request->input('nota');
         $Actividad->save();
         return response(json_encode([
-            "data"=> "Registro actualizado"
+            "data"=> "actividad actualizada"
         ]));
     }
 
